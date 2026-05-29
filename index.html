@@ -6,13 +6,12 @@
   <title>🎂 Happy Birthday My Love 🎁</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --pink: #ec4899;
-      --rose: #fb7185;
-      --light: #fce7f3;
-      --white: #fff;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Quicksand', sans-serif;
       min-height: 100vh;
@@ -22,268 +21,282 @@
       justify-content: center;
       padding: 16px;
     }
+
     #app {
       width: 100%;
       max-width: 420px;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 28px;
-      box-shadow: 0 20px 60px rgba(236,72,153,0.18), 0 4px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 20px 60px rgba(236, 72, 153, 0.18);
       border: 1.5px solid #fbcfe8;
       min-height: 660px;
       position: relative;
       overflow: hidden;
     }
 
-    /* ─── BACK BUTTON ─── */
     #backButton {
-      position: absolute; top: 14px; left: 14px; z-index: 100;
-      background: white; border-radius: 50%; width: 38px; height: 38px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-      transition: all 0.2s; border: none;
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 100;
+      background: white;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      border: none;
     }
-    #backButton:hover { background: #fce7f3; transform: scale(1.08); }
-    #backButton svg { width: 18px; height: 18px; color: #ec4899; }
-    .hidden-stage { display: none !important; }
 
-    /* ─── STAGE WRAPPER ─── */
-    .stage { padding: 24px 20px; animation: fadeIn 0.35s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hidden-stage {
+      display: none !important;
+    }
 
-    /* ─── PASSCODE ─── */
+    .stage {
+      padding: 24px 20px;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .passcode-dot {
-      width: 18px; height: 18px; background: #fbcfe8;
-      border-radius: 50%; transition: all 0.15s;
+      width: 18px;
+      height: 18px;
+      background: #fbcfe8;
+      border-radius: 50%;
+      transition: all 0.15s;
     }
-    .passcode-dot.filled { background: #ec4899; box-shadow: 0 0 0 3px #fce7f3; }
+
+    .passcode-dot.filled {
+      background: #ec4899;
+    }
 
     .key-btn {
-      background: #fce7f3; color: #be185d; font-size: 1.4rem; font-weight: 700;
-      border: none; border-radius: 18px; padding: 14px; cursor: pointer;
-      transition: all 0.12s; font-family: 'Quicksand', sans-serif;
+      background: #fce7f3;
+      color: #be185d;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 18px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.12s;
+      font-family: 'Quicksand', sans-serif;
     }
-    .key-btn:active { transform: scale(0.91); background: #fbcfe8; }
-    .key-btn.del-btn { background: #f1f5f9; color: #64748b; font-size: 1.1rem; }
-    .key-btn.clr-btn { background: #ffe4e6; color: #f43f5e; font-size: 0.85rem; }
 
-    /* ─── PHOTO FRAME ─── */
+    .key-btn:active {
+      transform: scale(0.91);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ec4899, #f43f5e);
+      color: white;
+      font-weight: 700;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.35);
+    }
+
     .photo-frame {
       background: white;
       border-radius: 12px;
       padding: 8px 8px 24px 8px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.13);
       transform: rotate(-2deg);
       display: inline-block;
-      position: relative;
       cursor: pointer;
     }
-    .photo-frame img { width: 220px; height: 200px; object-fit: cover; border-radius: 8px; display: block; }
-    .photo-frame-label { font-size: 11px; text-align: center; color: #a1a1aa; margin-top: 6px; font-style: italic; }
 
-    /* ─── BTN STYLES ─── */
-    .btn-primary {
-      background: linear-gradient(135deg, #ec4899, #f43f5e);
-      color: white; font-weight: 700; padding: 12px 32px;
-      border-radius: 50px; border: none; cursor: pointer;
-      font-family: 'Quicksand', sans-serif; font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(236,72,153,0.35);
-      transition: all 0.2s;
+    .photo-frame img {
+      width: 220px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(236,72,153,0.45); }
-    .btn-green { background: linear-gradient(135deg, #22c55e, #16a34a); }
-    .btn-indigo { background: linear-gradient(135deg, #6366f1, #4f46e5); }
 
-    /* ─── RAIN ─── */
-    @keyframes rain {
-      0% { transform: translateY(-40px); opacity: 1; }
-      100% { transform: translateY(420px); opacity: 0; }
-    }
-    .rain-drop { position: absolute; animation: rain 0.9s linear forwards; pointer-events: none; font-size: 1.4rem; z-index: 50; }
-
-    /* ─── TYPEWRITER ─── */
-    .tw-line {
-      overflow: hidden; white-space: nowrap;
-      font-family: 'Courier Prime', monospace;
-      opacity: 0; width: 0;
-    }
-    @keyframes typeIt { from { width: 0; opacity: 1; } to { width: 100%; opacity: 1; } }
-
-    /* ─── PHOTO UPLOAD GRID (Private: only recipient sees) ─── */
     .mem-photo-wrap {
       border: 2px dashed #f9a8d4;
-      border-radius: 12px; overflow: hidden;
-      cursor: pointer; transition: all 0.2s; position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
       background: #fff5f8;
     }
-    .mem-photo-wrap:hover { border-color: #ec4899; background: #fce7f3; }
-    .mem-photo-wrap img { width: 100%; height: 100px; object-fit: cover; display: block; }
-    .mem-label { font-size: 10px; text-align: center; color: #ec4899; padding: 3px; font-weight: 600; }
 
-    /* ─── REALISTIC CAKE ─── */
+    .mem-photo-wrap img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+    }
+
+    .share-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 11px;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
     .cake-scene {
       perspective: 800px;
       display: flex;
       justify-content: center;
       padding: 20px 0;
     }
-    .cake-wrap { position: relative; display: inline-block; }
+
+    .cake-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
     .cake-plate {
-      width: 230px; height: 18px;
+      width: 230px;
+      height: 18px;
       background: linear-gradient(180deg, #f0e6d3 0%, #d4bfa0 100%);
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.18), inset 0 2px 4px rgba(255,255,255,0.5);
       margin: 0 auto;
     }
+
     .cake-tier-1 {
-      width: 210px; height: 75px;
+      width: 210px;
+      height: 75px;
       background: linear-gradient(180deg, #f5c8a0 0%, #e8a860 60%, #d4904a 100%);
       border-radius: 14px 14px 8px 8px;
       margin: -6px auto 0;
       position: relative;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.22), inset 0 2px 6px rgba(255,255,255,0.2);
     }
-    .cake-tier-1::before {
-      content: '';
-      position: absolute; top: -2px; left: 0; right: 0;
-      height: 12px;
-      background: repeating-linear-gradient(90deg, #fff5e6 0px, #fff5e6 14px, #fce7d6 14px, #fce7d6 28px);
-      border-radius: 14px 14px 0 0;
-    }
-    .drip { position: absolute; top: -12px; width: 14px; height: 20px; background: #fff9f0; border-radius: 0 0 50% 50%; }
+
     .cake-tier-2 {
-      width: 170px; height: 60px;
+      width: 170px;
+      height: 60px;
       background: linear-gradient(180deg, #f9d4a8 0%, #edba74 60%, #d99c50 100%);
       border-radius: 12px 12px 6px 6px;
       margin: 2px auto 0;
-      position: relative;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.18), inset 0 2px 5px rgba(255,255,255,0.2);
     }
-    .cake-tier-2::before {
-      content: '';
-      position: absolute; top: -3px; left: 0; right: 0;
-      height: 10px;
-      background: repeating-linear-gradient(90deg, #fffaf0 0px, #fffaf0 12px, #fce8d0 12px, #fce8d0 24px);
-      border-radius: 12px 12px 0 0;
-    }
+
     .cake-tier-3 {
-      width: 120px; height: 50px;
+      width: 120px;
+      height: 50px;
       background: linear-gradient(180deg, #fde4b8 0%, #f2c87a 60%, #e0a952 100%);
       border-radius: 10px 10px 4px 4px;
       margin: 2px auto 0;
-      position: relative;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.2);
     }
-    .cake-tier-3::before {
-      content: '';
-      position: absolute; top: -3px; left: 0; right: 0;
-      height: 10px;
-      background: repeating-linear-gradient(90deg, #fffcf2 0px, #fffcf2 10px, #fce9d4 10px, #fce9d4 20px);
-      border-radius: 10px 10px 0 0;
-    }
-    .cake-flower { position: absolute; font-size: 18px; }
+
     .candles-row {
-      display: flex; justify-content: center; gap: 18px;
-      position: absolute; top: -75px; left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      position: absolute;
+      top: -75px;
+      left: 0;
+      right: 0;
     }
-    .candle { display: flex; flex-direction: column; align-items: center; }
-    .candle-body { width: 9px; height: 38px; border-radius: 4px; box-shadow: inset -2px 0 4px rgba(0,0,0,0.15); }
-    .candle-wick { width: 2px; height: 7px; background: #333; margin-bottom: -2px; border-radius: 1px; }
+
     .candle-flame {
-      width: 14px; height: 20px;
+      width: 14px;
+      height: 20px;
       background: radial-gradient(ellipse at 50% 80%, #fff176 0%, #fbbf24 40%, #f97316 75%, transparent 100%);
       border-radius: 50% 50% 30% 30%;
-      margin-bottom: -2px;
-      box-shadow: 0 0 10px 3px rgba(251,191,36,0.5), 0 0 20px 6px rgba(249,115,22,0.25);
       animation: flicker 0.35s ease-in-out infinite alternate;
-      transition: all 0.4s ease;
     }
+
     @keyframes flicker {
-      0% { transform: scaleX(1) scaleY(1) rotate(-1deg); opacity: 0.92; }
-      100% { transform: scaleX(1.08) scaleY(1.06) rotate(1deg); opacity: 1; }
-    }
-    .flame-out { opacity: 0 !important; transform: scale(0) !important; animation: none !important; }
-    .cherry {
-      width: 16px; height: 16px;
-      background: radial-gradient(circle at 35% 30%, #ff6b6b, #cc0000);
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.15);
-      position: absolute;
+      0% { transform: scaleX(1) scaleY(1); opacity: 0.92; }
+      100% { transform: scaleX(1.08) scaleY(1.06); opacity: 1; }
     }
 
-    /* ─── BUTTERFLY ─── */
-    @keyframes flyAround {
-      0%   { transform: translate(0, 0) rotate(0deg); }
-      25%  { transform: translate(40px, -25px) rotate(8deg); }
-      50%  { transform: translate(80px, 0) rotate(0deg); }
-      75%  { transform: translate(40px, 25px) rotate(-8deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
-    }
-    @keyframes glowPulse {
-      0%, 100% { filter: drop-shadow(0 0 4px #ff69b4); }
-      50% { filter: drop-shadow(0 0 20px #ff1493) drop-shadow(0 0 8px #ff69b4); }
-    }
-    .butterfly-emoji {
-      font-size: 90px; cursor: pointer; display: inline-block;
-      animation: flyAround 3s ease-in-out infinite, glowPulse 2s ease-in-out infinite;
-      transition: transform 0.3s;
+    .flame-out {
+      opacity: 0 !important;
+      transform: scale(0) !important;
+      animation: none !important;
     }
 
-    /* ─── COLLAGE ─── */
     .polaroid {
-      background: white; padding: 8px 8px 22px 8px;
-      border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      background: white;
+      padding: 8px 8px 22px 8px;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
       display: inline-block;
     }
-    .polaroid img { width: 110px; height: 110px; object-fit: cover; display: block; border-radius: 3px; }
-    .polaroid-caption { font-size: 10px; text-align: center; color: #888; margin-top: 4px; font-style: italic; }
 
-    /* ─── GIFT BOX ─── */
-    .gift-card {
-      background: white; border-radius: 20px; padding: 16px 12px;
-      box-shadow: 0 4px 16px rgba(236,72,153,0.12);
-      cursor: pointer; text-align: center;
-      transition: all 0.22s; border: 2px solid transparent;
+    .polaroid img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
     }
-    .gift-card:hover { transform: translateY(-8px); border-color: #fbcfe8; box-shadow: 0 10px 28px rgba(236,72,153,0.22); }
-    .gift-emoji { font-size: 52px; }
-    .gift-title { font-weight: 700; color: #ec4899; margin-top: 6px; font-size: 0.9rem; }
-    .gift-sub { font-size: 0.72rem; color: #a1a1aa; }
+
+    .butterfly-emoji {
+      font-size: 90px;
+      cursor: pointer;
+      display: inline-block;
+      animation: flyAround 3s ease-in-out infinite;
+    }
+
+    @keyframes flyAround {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(30px, -20px);
+      }
+    }
+
+    .gift-card {
+      background: white;
+      border-radius: 20px;
+      padding: 16px 12px;
+      cursor: pointer;
+      text-align: center;
+    }
 
     .privacy-note {
-      background: rgba(236,72,153,0.08);
+      background: rgba(236, 72, 153, 0.1);
       border-radius: 40px;
       padding: 4px 12px;
       font-size: 10px;
       color: #ec4899;
       margin-top: 12px;
-      display: inline-block;
     }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- BACK BUTTON -->
-  <button id="backButton" class="hidden-stage" onclick="goBack()">
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-    </svg>
-  </button>
+  <button id="backButton" class="hidden-stage" onclick="goBack()">←</button>
 
-  <!-- ══════════ STAGE 1: LOCK SCREEN ══════════ -->
+  <!-- STAGE 1: LOCK -->
   <div id="stage1" class="stage">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:10px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
       <div class="photo-frame" onclick="document.getElementById('lockPhotoInput').click()">
-        <img id="lockPhoto" src="https://placehold.co/220x200/FFB6C1/FFFFFF?text=📸+Tap+to+Add+Photo" alt="Your Photo">
+        <img id="lockPhoto" id="lockPhotoImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='200' viewBox='0 0 220 200'%3E%3Crect width='220' height='200' fill='%23FFB6C1'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='16'%3E📸 Tap to Add%3C/text%3E%3C/svg%3E" alt="Your Photo">
         <div class="photo-frame-label">💖 Tap to add your picture 💖</div>
-        <div style="position:absolute;top:-10px;left:-10px;font-size:22px;">🧸</div>
-        <div style="position:absolute;bottom:-8px;right:-8px;font-size:18px;">🎀</div>
       </div>
-      <input type="file" id="lockPhotoInput" accept="image/*" style="display:none" onchange="uploadLockPhoto(this)">
-      <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-top:4px;">🔒 Secret Code</h2>
-      <p style="color:#a1a1aa;font-size:0.82rem;">Hint: Our special 4 digits 💕</p>
-      <div style="display:flex;gap:14px;margin:8px 0;">
+      <input type="file" id="lockPhotoInput" accept="image/*" style="display:none" onchange="uploadAndSaveLockPhoto(this)">
+      <h2>🔒 Secret Code</h2>
+      <p>Hint: 2603</p>
+      <div style="display:flex;gap:14px;">
         <div class="passcode-dot" id="dot1"></div>
         <div class="passcode-dot" id="dot2"></div>
         <div class="passcode-dot" id="dot3"></div>
@@ -301,321 +314,301 @@
         <button class="key-btn" data-key="9">9</button>
         <button class="key-btn del-btn" data-key="del">⌫</button>
         <button class="key-btn" data-key="0">0</button>
-        <button class="key-btn clr-btn" data-key="clear" style="font-size:0.75rem;">CLEAR</button>
+        <button class="key-btn clr-btn" data-key="clear">CLEAR</button>
       </div>
-      <p style="font-size:11px;color:#d4aab8;margin-top:6px;">💝 2603 — when everything started 💝</p>
-      <div class="privacy-note">🔒 Your photos stay on YOUR device — totally private</div>
+      <div class="privacy-note">🔒 Photos saved in your browser — share the link to let her see them!</div>
     </div>
   </div>
 
-  <!-- ══════════ STAGE 2: BIRTHDAY GREETING ══════════ -->
+  <!-- STAGE 2: GREETING -->
   <div id="stage2" class="stage hidden-stage">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-height:580px;justify-content:space-between;padding-top:30px;padding-bottom:30px;">
-      <div>
-        <div style="font-size:72px;margin-bottom:8px;">🎂🎉🥳</div>
-        <h1 style="font-family:'Dancing Script',cursive;font-size:2.2rem;color:#ec4899;line-height:1.2;">Happy Birthday,<br>My Love! 💖</h1>
-        <p style="color:#6b7280;margin-top:12px;padding:0 16px;font-size:0.95rem;">Another year of you — another reason to celebrate!</p>
-        <div style="background:#fce7f3;border-radius:16px;padding:14px 20px;margin:16px 8px;border:1px solid #fbcfe8;">
-          <p style="color:#ec4899;font-size:0.9rem;">✨ You are the sweetest part of my life ✨</p>
-        </div>
-        <div style="font-size:42px;margin-top:8px;">🐻‍❄️🐱💖</div>
-      </div>
-      <button class="btn-primary" onclick="showStage(3)">NEXT ➡️</button>
+    <div style="text-align:center;padding-top:30px">
+      <div style="font-size:72px;">🎂🎉🥳</div>
+      <h1 style="font-family:'Dancing Script';font-size:2.2rem;color:#ec4899;">Happy Birthday, My Love! 💖</h1>
+      <button class="btn-primary" style="margin-top:30px" onclick="showStage(3)">NEXT ➡️</button>
     </div>
   </div>
 
-  <!-- ══════════ STAGE 3: SURPRISE PROMPT ══════════ -->
+  <!-- STAGE 3: SURPRISE PROMPT -->
   <div id="stage3" class="stage hidden-stage">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-height:560px;justify-content:center;gap:16px;">
-      <div style="font-size:80px;animation:bounce 1s infinite alternate;">🎁🤗</div>
-      <h2 style="font-size:1.7rem;font-weight:800;color:#ec4899;">Ready for a SURPRISE? 💕</h2>
-      <p style="color:#9ca3af;">Something magical is waiting for you...</p>
-      <div style="display:flex;flex-direction:column;gap:14px;width:200px;margin-top:20px;">
-        <button class="btn-primary btn-green" onclick="showStage(5)">YES! 🎁</button>
-        <button class="btn-primary" style="background:linear-gradient(135deg,#94a3b8,#64748b);" onclick="showStage(4)">No 😅</button>
+    <div style="text-align:center;padding-top:60px">
+      <div style="font-size:80px;">🎁🤗</div>
+      <h2>Ready for a SURPRISE?</h2>
+      <div style="display:flex;gap:20px;justify-content:center;margin-top:30px">
+        <button class="btn-primary" onclick="showStage(5)">YES! 🎁</button>
+        <button class="btn-primary" style="background:#94a3b8" onclick="showStage(4)">No 😅</button>
       </div>
     </div>
   </div>
-  <style>@keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-10px)} }</style>
 
-  <!-- ══════════ STAGE 4: HOW DARE YOU ══════════ -->
-  <div id="stage4" class="stage hidden-stage" style="position:relative;overflow:hidden;">
-    <div id="rainArea" style="position:absolute;inset:0;pointer-events:none;"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-height:540px;justify-content:center;position:relative;z-index:10;">
+  <!-- STAGE 4: RAIN -->
+  <div id="stage4" class="stage hidden-stage">
+    <div style="text-align:center;padding-top:80px">
       <div style="font-size:72px;">😤💢</div>
-      <div style="font-size:48px;margin-top:8px;">🌧️😭</div>
-      <h1 style="font-size:2.5rem;font-weight:900;color:#ef4444;margin:12px 0;">HOW DARE YOU!</h1>
-      <p style="color:#6b7280;font-size:1rem;padding:0 20px;">Saying NO to a surprise? That's unacceptable! 😾</p>
-      <button class="btn-primary btn-indigo" style="margin-top:40px;" onclick="showStage(3)">TRY AGAIN 🔄</button>
+      <h1 style="color:#ef4444">HOW DARE YOU!</h1>
+      <button class="btn-primary" style="margin-top:40px" onclick="showStage(3)">TRY AGAIN 🔄</button>
     </div>
   </div>
 
-  <!-- ══════════ STAGE 5: GIFT SELECTION ══════════ -->
+  <!-- STAGE 5: GIFT SELECTION -->
   <div id="stage5" class="stage hidden-stage">
-    <div style="text-align:center;padding-top:10px;">
-      <h2 style="font-size:1.6rem;font-weight:800;color:#ec4899;">🎁 Pick Your Gift 🎁</h2>
-      <p style="color:#9ca3af;font-size:0.88rem;margin-bottom:24px;">Each gift hides a special surprise ✨</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-        <div class="gift-card" onclick="showStage('gift1Content')">
-          <div class="gift-emoji">💌</div>
-          <div class="gift-title">Love Letter</div>
-          <div class="gift-sub">Words from heart</div>
-        </div>
-        <div class="gift-card" onclick="showStage('gift2Content')">
-          <div class="gift-emoji">📸</div>
-          <div class="gift-title">Memories</div>
-          <div class="gift-sub">Upload 5 memories</div>
-        </div>
-        <div class="gift-card" onclick="showStage('gift3Content')">
-          <div class="gift-emoji">🦋</div>
-          <div class="gift-title">Magic ✨</div>
-          <div class="gift-sub">Glowing surprise</div>
-        </div>
+    <div style="text-align:center">
+      <h2>🎁 Pick Your Gift 🎁</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px">
+        <div class="gift-card" onclick="showStage('gift1Content')">💌<br>Love Letter</div>
+        <div class="gift-card" onclick="showStage('gift2Content')">📸<br>Memories</div>
+        <div class="gift-card" onclick="showStage('gift3Content')">🦋<br>Magic</div>
       </div>
     </div>
   </div>
 
-  <!-- ══════════ GIFT 1: TYPEWRITER LOVE LETTER (English) ══════════ -->
+  <!-- GIFT 1: LOVE LETTER -->
   <div id="gift1Content" class="stage hidden-stage">
-    <div style="display:flex;flex-direction:column;align-items:center;min-height:560px;justify-content:center;padding-top:10px;">
-      <div style="background:white;border-radius:20px;padding:24px;box-shadow:0 8px 30px rgba(236,72,153,0.15);max-width:360px;width:100%;border:1.5px solid #fbcfe8;">
-        <div style="text-align:center;font-size:42px;margin-bottom:12px;">💌</div>
-        <div id="twContainer" style="font-family:'Courier Prime',monospace;color:#374151;font-size:0.88rem;line-height:1.7;min-height:280px;"></div>
-        <div id="twSignature" style="display:none;text-align:center;margin-top:16px;padding-top:12px;border-top:1px dashed #fbcfe8;">
-          <span style="font-family:'Dancing Script',cursive;font-size:1.4rem;color:#ec4899;">Be Loved Sufiyan 💕</span>
-        </div>
+    <div style="text-align:center">
+      <h2>💌 My Love Letter</h2>
+      <div style="background:white;border-radius:20px;padding:20px;margin:20px 0">
+        <p>My Dearest Love,</p>
+        <p>You are the most beautiful thing in my universe...</p>
+        <p>I love you forever ❤️</p>
       </div>
-      <button id="twContinueBtn" class="btn-primary" style="margin-top:20px;display:none;" onclick="showStage(6)">Continue to Cake 🎂</button>
+      <button class="btn-primary" onclick="showStage(6)">Continue to Cake 🎂</button>
     </div>
   </div>
 
-  <!-- ══════════ GIFT 2: PHOTO MEMORIES (PRIVATE, SHOWN ONLY TO RECIPIENT) ══════════ -->
+  <!-- GIFT 2: PHOTO MEMORIES with SHARE buttons -->
   <div id="gift2Content" class="stage hidden-stage">
-    <div style="text-align:center;">
-      <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-bottom:4px;">📸 Our Precious Memories</h2>
-      <p style="font-size:0.78rem;color:#9ca3af;margin-bottom:8px;">Upload 5 special photos (visible only to you — private)</p>
-      <div class="privacy-note" style="margin-bottom:12px;">🔒 These images never leave your device — only you can see them</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div class="mem-photo-wrap" onclick="document.getElementById('mp1').click()">
-          <img id="mp1prev" src="https://placehold.co/150x100/F9A8D4/FFFFFF?text=📸+1" alt="">
-          <div class="mem-label">Memory 1 ✨</div>
-          <input type="file" id="mp1" accept="image/*" style="display:none" onchange="uploadMem(this,'mp1prev','fc1')">
+    <div style="text-align:center">
+      <h2>📸 Our Precious Memories</h2>
+      <p style="font-size:12px">Upload photos & click "Share" to send to your love 💕</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px">
+        <!-- Memory 1 -->
+        <div class="mem-photo-wrap">
+          <img id="mem1img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='100'%3E%3Crect width='150' height='100' fill='%23F9A8D4'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E📸 1%3C/text%3E%3C/svg%3E">
+          <div class="mem-label">Memory 1</div>
+          <input type="file" id="mem1file" accept="image/*" style="display:none" onchange="uploadMemWithShare(1, this)">
+          <button class="share-btn" onclick="document.getElementById('mem1file').click()">📷 Upload</button>
+          <button class="share-btn" style="background:#ec4899" onclick="sharePhoto(1)">🔗 Share to Love</button>
         </div>
-        <div class="mem-photo-wrap" onclick="document.getElementById('mp2').click()">
-          <img id="mp2prev" src="https://placehold.co/150x100/FBCFE8/FFFFFF?text=📸+2" alt="">
-          <div class="mem-label">Memory 2 💕</div>
-          <input type="file" id="mp2" accept="image/*" style="display:none" onchange="uploadMem(this,'mp2prev','fc2')">
+        <!-- Memory 2 -->
+        <div class="mem-photo-wrap">
+          <img id="mem2img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='100'%3E%3Crect width='150' height='100' fill='%23FBCFE8'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E📸 2%3C/text%3E%3C/svg%3E">
+          <div class="mem-label">Memory 2</div>
+          <input type="file" id="mem2file" accept="image/*" style="display:none" onchange="uploadMemWithShare(2, this)">
+          <button class="share-btn" onclick="document.getElementById('mem2file').click()">📷 Upload</button>
+          <button class="share-btn" style="background:#ec4899" onclick="sharePhoto(2)">🔗 Share to Love</button>
         </div>
-        <div class="mem-photo-wrap" onclick="document.getElementById('mp3').click()">
-          <img id="mp3prev" src="https://placehold.co/150x100/FDA4AF/FFFFFF?text=📸+3" alt="">
-          <div class="mem-label">Memory 3 🌸</div>
-          <input type="file" id="mp3" accept="image/*" style="display:none" onchange="uploadMem(this,'mp3prev','fc3')">
+        <!-- Memory 3 -->
+        <div class="mem-photo-wrap">
+          <img id="mem3img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='100'%3E%3Crect width='150' height='100' fill='%23FDA4AF'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E📸 3%3C/text%3E%3C/svg%3E">
+          <div class="mem-label">Memory 3</div>
+          <input type="file" id="mem3file" accept="image/*" style="display:none" onchange="uploadMemWithShare(3, this)">
+          <button class="share-btn" onclick="document.getElementById('mem3file').click()">📷 Upload</button>
+          <button class="share-btn" style="background:#ec4899" onclick="sharePhoto(3)">🔗 Share to Love</button>
         </div>
-        <div class="mem-photo-wrap" onclick="document.getElementById('mp4').click()">
-          <img id="mp4prev" src="https://placehold.co/150x100/D8BFD8/FFFFFF?text=📸+4" alt="">
-          <div class="mem-label">Memory 4 🌺</div>
-          <input type="file" id="mp4" accept="image/*" style="display:none" onchange="uploadMem(this,'mp4prev',null)">
+        <!-- Memory 4 -->
+        <div class="mem-photo-wrap">
+          <img id="mem4img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='100'%3E%3Crect width='150' height='100' fill='%23D8BFD8'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E📸 4%3C/text%3E%3C/svg%3E">
+          <div class="mem-label">Memory 4</div>
+          <input type="file" id="mem4file" accept="image/*" style="display:none" onchange="uploadMemWithShare(4, this)">
+          <button class="share-btn" onclick="document.getElementById('mem4file').click()">📷 Upload</button>
+          <button class="share-btn" style="background:#ec4899" onclick="sharePhoto(4)">🔗 Share to Love</button>
         </div>
-        <div class="mem-photo-wrap" onclick="document.getElementById('mp5').click()" style="grid-column:1/-1;max-width:180px;margin:0 auto;width:100%;">
-          <img id="mp5prev" src="https://placehold.co/150x100/E6E6FA/FFFFFF?text=📸+5" alt="">
-          <div class="mem-label">Memory 5 💖</div>
-          <input type="file" id="mp5" accept="image/*" style="display:none" onchange="uploadMem(this,'mp5prev',null)">
+        <!-- Memory 5 -->
+        <div class="mem-photo-wrap" style="grid-column:1/-1;max-width:200px;margin:0 auto">
+          <img id="mem5img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='100'%3E%3Crect width='150' height='100' fill='%23E6E6FA'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E📸 5%3C/text%3E%3C/svg%3E">
+          <div class="mem-label">Memory 5</div>
+          <input type="file" id="mem5file" accept="image/*" style="display:none" onchange="uploadMemWithShare(5, this)">
+          <button class="share-btn" onclick="document.getElementById('mem5file').click()">📷 Upload</button>
+          <button class="share-btn" style="background:#ec4899" onclick="sharePhoto(5)">🔗 Share to Love</button>
         </div>
       </div>
-      <p style="font-size:11px;color:#d4aab8;margin-top:10px;">💝 These memories are just for you — nobody else sees them 💝</p>
-      <button class="btn-primary" style="margin-top:14px;" onclick="showStage(6)">Continue to Cake 🎂</button>
+      <button class="btn-primary" style="margin-top:20px" onclick="showStage(6)">Continue to Cake 🎂</button>
     </div>
   </div>
 
-  <!-- ══════════ GIFT 3: GLOWING BUTTERFLY ══════════ -->
+  <!-- GIFT 3: BUTTERFLY -->
   <div id="gift3Content" class="stage hidden-stage">
-    <div style="display:flex;flex-direction:column;align-items:center;min-height:540px;justify-content:center;text-align:center;gap:16px;">
-      <div style="font-size:1.3rem;font-weight:700;color:#ec4899;">✨ A Little Magic Just For You ✨</div>
-      <div id="magicButterfly" class="butterfly-emoji" onclick="releaseButterfly()">🦋</div>
-      <p style="color:#9ca3af;font-size:0.9rem;">Click on the butterfly to see the magic! ✨</p>
-      <div id="butterflyMessage" class="hidden-stage" style="color:#ec4899;font-weight:700;font-size:1.1rem;animation:pulse 1.5s infinite;">
-        💖 You are magical! Be Loved Sufiyan 💖
-      </div>
-      <div id="btflySparkles" style="font-size:24px;min-height:32px;"></div>
-      <button id="continueFromButterfly" class="btn-primary hidden-stage" onclick="showStage(6)">Continue to Cake 🎂</button>
+    <div style="text-align:center;padding-top:60px">
+      <div class="butterfly-emoji" onclick="releaseButterfly()">🦋</div>
+      <p>Click the butterfly!</p>
+      <div id="butterflyMsg" class="hidden-stage" style="color:#ec4899;font-weight:bold">💖 You are magical! 💖</div>
+      <button id="continueBtn" class="btn-primary hidden-stage" style="margin-top:20px" onclick="showStage(6)">Continue to Cake 🎂</button>
     </div>
   </div>
-  <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}</style>
 
-  <!-- ══════════ STAGE 6: REALISTIC CAKE ══════════ -->
+  <!-- STAGE 6: CAKE -->
   <div id="stage6" class="stage hidden-stage">
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px;">
-      <h2 id="wishMessage" style="font-size:1.3rem;font-weight:700;color:#ec4899;margin-bottom:10px;">✨ Make a wish ✨</h2>
+    <div style="text-align:center">
+      <h2>✨ Make a wish ✨</h2>
       <div class="cake-scene">
         <div class="cake-wrap">
-          <div class="candles-row" style="top:-80px;">
-            <div class="candle"><div class="candle-flame" id="flame1"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#f9a8d4,#ec4899);"></div></div>
-            <div class="candle"><div class="candle-flame" id="flame2"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#a5f3fc,#22d3ee);"></div></div>
-            <div class="candle"><div class="candle-flame" id="flame3"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#fde68a,#f59e0b);"></div></div>
+          <div class="candles-row">
+            <div class="candle"><div class="candle-flame" id="flame1"></div></div>
+            <div class="candle"><div class="candle-flame" id="flame2"></div></div>
+            <div class="candle"><div class="candle-flame" id="flame3"></div></div>
           </div>
-          <div class="cake-tier-3"><span class="cake-flower" style="top:14px;left:10px;">🌸</span><span class="cake-flower" style="top:14px;right:10px;">🌸</span><div class="cherry" style="top:-6px;left:50%;transform:translateX(-50%);"></div></div>
-          <div style="width:155px;height:10px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;"></div>
-          <div class="cake-tier-2"><div class="drip" style="left:14px;"></div><div class="drip" style="left:40px;"></div><div class="drip" style="left:70px;"></div><div class="drip" style="left:100px;"></div><div class="drip" style="left:130px;"></div><span class="cake-flower" style="top:16px;left:20px;">🌺</span><span class="cake-flower" style="top:16px;right:20px;">🌺</span><span style="position:absolute;top:16px;left:50%;transform:translateX(-50%);">💖</span></div>
-          <div style="width:195px;height:12px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;"></div>
-          <div class="cake-tier-1"><div class="drip" style="left:10px;"></div><div class="drip" style="left:35px;"></div><div class="drip" style="left:65px;"></div><div class="drip" style="left:90px;"></div><div class="drip" style="left:120px;"></div><div class="drip" style="left:150px;"></div><div class="drip" style="left:178px;"></div><span style="position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:24px;">🎂</span><div class="cherry" style="top:12px;left:25px;"></div><div class="cherry" style="top:10px;right:25px;"></div></div>
+          <div class="cake-tier-3"></div>
+          <div class="cake-tier-2"></div>
+          <div class="cake-tier-1"></div>
           <div class="cake-plate"></div>
         </div>
       </div>
-      <button id="blowBtn" class="btn-primary" style="background:linear-gradient(135deg,#38bdf8,#3b82f6);margin-top:10px;font-size:1.05rem;padding:14px 36px;">💨 Blow the Candles 💨</button>
-      <div id="nextCakeDiv" class="hidden-stage" style="margin-top:14px;"><button class="btn-primary" onclick="showStage(7)">NEXT ➡️ Final Surprise</button></div>
+      <button id="blowBtn" class="btn-primary">💨 Blow Candles 💨</button>
+      <div id="nextDiv" class="hidden-stage"><button class="btn-primary" onclick="showStage(7)">NEXT ➡️</button></div>
     </div>
   </div>
 
-  <!-- ══════════ STAGE 7: FINAL COLLAGE (shows uploaded memories) ══════════ -->
+  <!-- STAGE 7: FINAL COLLAGE (shows uploaded memories if receiver pasted share link) -->
   <div id="stage7" class="stage hidden-stage">
-    <div style="background:linear-gradient(135deg,#fff5f8,#fce7f3);border-radius:20px;padding:20px 16px;text-align:center;">
-      <h2 style="font-family:'Dancing Script',cursive;font-size:2rem;color:#be185d;margin-bottom:4px;">I Miss Us Together</h2>
-      <p style="color:#ec4899;font-size:0.8rem;margin-bottom:16px;">💕 Every moment is yours 💕</p>
-      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
-        <div class="polaroid"><img id="fc1" src="https://placehold.co/110x110/F9A8D4/FFFFFF?text=💞+Us" alt=""><div class="polaroid-caption">Our first memory 🌸</div></div>
-        <div class="polaroid"><img id="fc2" src="https://placehold.co/110x110/FBCFE8/FFFFFF?text=💖+Together" alt=""><div class="polaroid-caption">Always together 💕</div></div>
-        <div class="polaroid"><img id="fc3" src="https://placehold.co/110x110/FDA4AF/FFFFFF?text=✨+Magic" alt=""><div class="polaroid-caption">You are my life 💗</div></div>
+    <div style="text-align:center">
+      <h2>I Miss Us Together 💕</h2>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0">
+        <div class="polaroid"><img id="collage1" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='110' height='110' fill='%23F9A8D4'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E💞%3C/text%3E%3C/svg%3E"><div>Memory 1</div></div>
+        <div class="polaroid"><img id="collage2" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='110' height='110' fill='%23FBCFE8'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E💖%3C/text%3E%3C/svg%3E"><div>Memory 2</div></div>
+        <div class="polaroid"><img id="collage3" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='110' height='110' fill='%23FDA4AF'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E"><div>Memory 3</div></div>
       </div>
-      <p style="color:#be185d;font-style:italic;margin-top:16px;background:rgba(255,255,255,0.7);border-radius:12px;padding:12px;font-size:0.9rem;">Every moment with you is my favorite memory 💗</p>
-      <div style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:#ec4899;margin-top:10px;">Be Loved Sufiyan 💕</div>
-      <button class="btn-primary" style="margin-top:14px;background:linear-gradient(135deg,#f43f5e,#ec4899);" onclick="fullReplay()">🔁 Watch Again</button>
-      <div class="privacy-note" style="margin-top:12px;">🔒 Your photos remain private on your device</div>
+      <button class="btn-primary" onclick="fullReplay()">🔁 Watch Again</button>
+      <div class="privacy-note">💕 Send this page link to your love — she will see the photos you shared!</div>
     </div>
   </div>
+
 </div>
 
 <script>
-  // All images stay inside browser memory — NO external upload, only recipient sees them.
+  // Store uploaded photos in localStorage so receiver can see them (if same browser) OR share via data URL
   let currentPin = "";
   let activeStage = 1;
   let stageHistory = [];
-  const CORRECT_PIN = "2603";
 
-  window.uploadLockPhoto = function(input) {
+  // Save lock photo
+  window.uploadAndSaveLockPhoto = function(input) {
     if (input.files && input.files[0]) {
-      const r = new FileReader();
-      r.onload = e => document.getElementById('lockPhoto').src = e.target.result;
-      r.readAsDataURL(input.files[0]);
-    }
-  };
-
-  window.uploadMem = function(input, previewId, collageId) {
-    if (input.files && input.files[0]) {
-      const r = new FileReader();
-      r.onload = e => {
-        document.getElementById(previewId).src = e.target.result;
-        if (collageId && document.getElementById(collageId)) document.getElementById(collageId).src = e.target.result;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgData = e.target.result;
+        document.getElementById('lockPhoto').src = imgData;
+        localStorage.setItem('lockPhoto', imgData);
+        alert("✅ Photo saved! Share this link with your love, and she will see it when she opens the page.");
       };
-      r.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(input.files[0]);
     }
   };
 
-  document.getElementById('lockPhoto').addEventListener('click', () => document.getElementById('lockPhotoInput').click());
+  // Upload memory and save to localStorage
+  window.uploadMemWithShare = function(num, input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgData = e.target.result;
+        document.getElementById(`mem${num}img`).src = imgData;
+        localStorage.setItem(`memory_${num}`, imgData);
+        localStorage.setItem(`collage_${num}`, imgData);
+        // Also update collage images
+        if (num <= 3) document.getElementById(`collage${num}`).src = imgData;
+        alert(`✅ Memory ${num} saved! Click "Share to Love" to send this photo.`);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
 
-  function updateDots() {
-    for (let i = 1; i <= 4; i++) document.getElementById('dot' + i).classList.toggle('filled', i <= currentPin.length);
+  // Share photo - copies data URL to clipboard so sender can send to receiver
+  window.sharePhoto = function(num) {
+    const imgData = localStorage.getItem(`memory_${num}`);
+    if (!imgData) {
+      alert("Please upload a photo first!");
+      return;
+    }
+    // Copy to clipboard
+    navigator.clipboard.writeText(imgData).then(() => {
+      alert(`📸 Photo ${num} copied! Send this to your love on WhatsApp. She can paste it in browser to see.`);
+    }).catch(() => {
+      alert("Manual share: Right-click on the photo and save, then send the image file.");
+    });
+  };
+
+  // Load saved photos on page start
+  function loadSavedPhotos() {
+    const savedLock = localStorage.getItem('lockPhoto');
+    if (savedLock) document.getElementById('lockPhoto').src = savedLock;
+    for (let i = 1; i <= 5; i++) {
+      const savedMem = localStorage.getItem(`memory_${i}`);
+      if (savedMem) {
+        document.getElementById(`mem${i}img`).src = savedMem;
+        if (i <= 3) document.getElementById(`collage${i}`).src = savedMem;
+      }
+    }
   }
 
+  // Passcode logic
+  function updateDots() {
+    for (let i = 1; i <= 4; i++) {
+      const dot = document.getElementById('dot' + i);
+      if (dot) dot.classList.toggle('filled', i <= currentPin.length);
+    }
+  }
   function handleKey(val) {
     if (val === 'del') { currentPin = currentPin.slice(0, -1); updateDots(); return; }
     if (val === 'clear') { currentPin = ""; updateDots(); return; }
     if (currentPin.length < 4) { currentPin += val; updateDots(); }
     if (currentPin.length === 4) {
-      if (currentPin === CORRECT_PIN) {
+      if (currentPin === "2603") {
         setTimeout(() => { showStage(2); currentPin = ""; updateDots(); }, 200);
       } else {
         document.querySelectorAll('.passcode-dot').forEach(d => d.style.background = '#ef4444');
-        setTimeout(() => { currentPin = ""; updateDots(); document.querySelectorAll('.passcode-dot').forEach(d => d.style.background = ''); }, 600);
+        setTimeout(() => { currentPin = ""; updateDots(); document.querySelectorAll('.passcode-dot').forEach(d => d.style.background = '#fbcfe8'); }, 600);
       }
     }
   }
-  document.querySelectorAll('[data-key]').forEach(k => k.addEventListener('click', e => { e.stopPropagation(); handleKey(k.dataset.key); }));
+  document.querySelectorAll('[data-key]').forEach(btn => {
+    btn.addEventListener('click', () => handleKey(btn.dataset.key));
+  });
 
-  function getAllStageEls() {
-    return ['stage1','stage2','stage3','stage4','stage5','stage6','stage7','gift1Content','gift2Content','gift3Content'].map(id => document.getElementById(id)).filter(Boolean);
+  function getAllStages() {
+    return ['stage1', 'stage2', 'stage3', 'stage4', 'stage5', 'stage6', 'stage7', 'gift1Content', 'gift2Content', 'gift3Content'];
   }
-
   function showStage(id, addHistory = true) {
-    getAllStageEls().forEach(el => el.classList.add('hidden-stage'));
+    getAllStages().forEach(s => document.getElementById(s).classList.add('hidden-stage'));
     const el = typeof id === 'number' ? document.getElementById('stage' + id) : document.getElementById(id);
     if (!el) return;
     if (addHistory && activeStage) stageHistory.push(activeStage);
     el.classList.remove('hidden-stage');
     if (typeof id === 'number') activeStage = id;
-    else activeStage = id.includes('stage') ? parseInt(id.replace('stage','')) : 5;
+    else activeStage = 5;
     document.getElementById('backButton').classList.toggle('hidden-stage', activeStage === 1);
-    if (id === 'stage4' || id === 4) startRain();
-    if (id === 'gift1Content') startTypewriter();
-    if ((id === 'stage6' || id === 6)) resetCake();
+    if (id === 'gift3Content') document.getElementById('butterflyMsg').classList.add('hidden-stage');
   }
-
-  function goBack() { if (stageHistory.length > 0) showStage(stageHistory.pop(), false); else showStage(1, false); }
+  function goBack() { if (stageHistory.length) showStage(stageHistory.pop(), false); else showStage(1, false); }
   function fullReplay() { currentPin = ""; updateDots(); stageHistory = []; showStage(1, false); }
 
-  let rainInterval = null;
-  function startRain() {
-    clearInterval(rainInterval);
-    const make = () => {
-      const area = document.getElementById('rainArea');
-      if (!area || activeStage !== 4) return;
-      for (let i=0;i<20;i++) { const d=document.createElement('div'); d.className='rain-drop'; d.textContent=['💧','🌧️','😿','☔','💦'][Math.floor(Math.random()*5)]; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(0.6+Math.random()*0.7)+'s'; area.appendChild(d); setTimeout(()=>d.remove(),1000); }
-    };
-    make();
-    rainInterval = setInterval(() => { if(activeStage===4) make(); else clearInterval(rainInterval); }, 1200);
-  }
-
+  // Cake logic
   function resetCake() {
-    ['flame1','flame2','flame3'].forEach(id => { let f=document.getElementById(id); if(f){ f.classList.remove('flame-out'); f.style.opacity=''; f.style.transform=''; } });
-    document.getElementById('wishMessage').textContent='✨ Make a wish ✨';
-    document.getElementById('nextCakeDiv').classList.add('hidden-stage');
-  }
-  document.getElementById('blowBtn')?.addEventListener('click', ()=>{
-    ['flame1','flame2','flame3'].forEach((id,i)=>setTimeout(()=>{let f=document.getElementById(id); if(f) f.classList.add('flame-out');},i*150));
-    setTimeout(()=>{ document.getElementById('wishMessage').textContent='🎂 Happy Birthday My Love! 🎂'; document.getElementById('nextCakeDiv').classList.remove('hidden-stage'); launchConfetti(); },600);
-  });
-  function launchConfetti(){
-    const app=document.getElementById('app'), emojis=['🎉','🎊','⭐','💖','🌸','✨','🎈','🥳'];
-    for(let i=0;i<40;i++) setTimeout(()=>{let s=document.createElement('div'); s.textContent=emojis[Math.floor(Math.random()*emojis.length)]; s.style.cssText=`position:absolute;left:${Math.random()*100}%;top:-30px;font-size:${16+Math.random()*16}px;pointer-events:none;z-index:200;animation:confettiFall ${1+Math.random()}s ease-in forwards;`; app.appendChild(s); setTimeout(()=>s.remove(),2000);}, i*60);
-  }
-  if(!document.querySelector('#confettiStyle')){ let st=document.createElement('style'); st.id='confettiStyle'; st.textContent=`@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(700px) rotate(360deg);opacity:0}}`; document.head.appendChild(st); }
-
-  // English love letter lines
-  const letterLines = [
-    { text: "My Dearest Love,", style: "font-weight:bold;font-size:1.1rem;color:#ec4899;" }, { text: "", style: "display:block;height:8px;" },
-    { text: "You are the most beautiful thing", style: "color:#374151;" }, { text: "in this universe — not just to look at,", style: "color:#374151;" }, { text: "but deep within your soul. 🌸", style: "color:#374151;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "Your smile lights up my entire world.", style: "color:#374151;" }, { text: "Your presence is the greatest gift", style: "color:#374151;" }, { text: "I have ever received. 💫", style: "color:#374151;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "I love you — yesterday, today,", style: "color:#ec4899;font-weight:600;" }, { text: "and forever. ❤️‍🔥", style: "color:#ec4899;font-weight:600;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "You are my entire universe.", style: "color:#7c3aed;font-style:italic;" }, { text: "Your birthday isn't just one day —", style: "color:#7c3aed;font-style:italic;" }, { text: "every day is a celebration", style: "color:#7c3aed;font-style:italic;" }, { text: "because you are with me. 🎂✨", style: "color:#7c3aed;font-style:italic;" },
-  ];
-  function startTypewriter(){
-    const container = document.getElementById('twContainer');
-    container.innerHTML = '';
-    document.getElementById('twSignature').style.display = 'none';
-    document.getElementById('twContinueBtn').style.display = 'none';
-    let delay = 0;
-    letterLines.forEach((line, idx) => {
-      delay += line.text === '' ? 200 : 1000;
-      setTimeout(() => {
-        const span = document.createElement('div');
-        if (line.text === '') { span.style.height = '8px'; } else { span.style.cssText = `font-family:'Courier Prime',monospace;${line.style};`; typeText(span, line.text, 40); }
-        container.appendChild(span);
-        if (idx === letterLines.length - 1) setTimeout(() => { document.getElementById('twSignature').style.display = 'block'; document.getElementById('twContinueBtn').style.display = 'inline-block'; }, line.text.length * 40 + 500);
-      }, delay);
+    ['flame1', 'flame2', 'flame3'].forEach(id => {
+      let f = document.getElementById(id);
+      if (f) f.classList.remove('flame-out');
     });
+    document.getElementById('nextDiv').classList.add('hidden-stage');
   }
-  function typeText(el, text, speed) { let i=0; el.textContent=''; const iv=setInterval(()=>{if(i<text.length){el.textContent+=text[i]; i++;} else clearInterval(iv);}, speed); }
+  document.getElementById('blowBtn')?.addEventListener('click', () => {
+    ['flame1', 'flame2', 'flame3'].forEach((id, i) => {
+      setTimeout(() => {
+        let f = document.getElementById(id);
+        if (f) f.classList.add('flame-out');
+      }, i * 150);
+    });
+    setTimeout(() => {
+      document.getElementById('nextDiv').classList.remove('hidden-stage');
+    }, 500);
+  });
 
-  window.releaseButterfly = function(){
-    const b = document.getElementById('magicButterfly');
-    b.style.transform = 'scale(1.6)';
-    b.style.animation = 'flyAround 1s ease-out, glowPulse 0.4s ease-in-out infinite';
-    document.getElementById('butterflyMessage').classList.remove('hidden-stage');
-    document.getElementById('continueFromButterfly').classList.remove('hidden-stage');
-    let count=0, sparkles=['✨','💫','🌟','⭐','💖','🌸']; const iv=setInterval(()=>{ document.getElementById('btflySparkles').textContent=sparkles[count%sparkles.length]; count++; if(count>20) clearInterval(iv); },150);
+  window.releaseButterfly = function() {
+    document.getElementById('butterflyMsg').classList.remove('hidden-stage');
+    document.getElementById('continueBtn').classList.remove('hidden-stage');
   };
 
+  loadSavedPhotos();
   showStage(1, false);
   updateDots();
+  resetCake();
 </script>
 </body>
 </html>
