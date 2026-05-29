@@ -301,7 +301,7 @@
     </svg>
   </button>
 
-  <!-- ══════════ STAGE 1: LOCK SCREEN ══════════ -->
+  <!-- ══════════ STAGE 1: LOCK SCREEN with SHARE ══════════ -->
   <div id="stage1" class="stage">
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:10px;">
 
@@ -311,7 +311,11 @@
         <div style="position:absolute;top:-10px;left:-10px;font-size:22px;">🧸</div>
         <div style="position:absolute;bottom:-8px;right:-8px;font-size:18px;">🎀</div>
       </div>
-      <input type="file" id="lockPhotoInput" accept="image/*" style="display:none" onchange="uploadLockPhoto(this)">
+      <input type="file" id="lockPhotoInput" accept="image/*" style="display:none" onchange="uploadLockPhotoWithShare(this)">
+      
+      <!-- Share button for lock photo -->
+      <button class="share-link-btn" id="lockShareBtn" style="display:none; margin-top:5px;" onclick="shareLockPhoto()">🔗 Copy Lock Screen Photo Link</button>
+      <div id="lockCopyNotice" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
 
       <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-top:4px;">🔒 Secret Code</h2>
       <p style="color:#a1a1aa;font-size:0.82rem;">Hint: Hamari khaas 4 digits 💕</p>
@@ -602,20 +606,47 @@
   
   // Store uploaded photo data URLs for sharing
   let uploadedPhotos = {};
+  let lockPhotoData = null;
 
-  // ── PHOTO UPLOAD WITH SHARE FUNCTIONALITY ──
-  window.uploadLockPhoto = function(input) {
+  // ── LOCK PHOTO UPLOAD WITH SHARE ──
+  window.uploadLockPhotoWithShare = function(input) {
     if (input.files && input.files[0]) {
       const r = new FileReader();
       r.onload = e => {
-        const imgData = e.target.result;
-        document.getElementById('lockPhoto').src = imgData;
-        alert("✅ Photo uploaded! You can share this page link with your love.");
+        lockPhotoData = e.target.result;
+        document.getElementById('lockPhoto').src = lockPhotoData;
+        
+        // Show share button
+        const shareBtn = document.getElementById('lockShareBtn');
+        if (shareBtn) shareBtn.style.display = 'inline-block';
+        
+        alert("✅ Lock screen photo uploaded! Click 'Copy Lock Screen Photo Link' to send on WhatsApp.");
       };
       r.readAsDataURL(input.files[0]);
     }
   };
 
+  window.shareLockPhoto = function() {
+    if (!lockPhotoData) {
+      alert("Please upload a photo first!");
+      return;
+    }
+    
+    navigator.clipboard.writeText(lockPhotoData).then(() => {
+      const notice = document.getElementById('lockCopyNotice');
+      if (notice) {
+        notice.style.display = 'block';
+        setTimeout(() => {
+          notice.style.display = 'none';
+        }, 3000);
+      }
+      alert("📸 Lock screen photo link copied! Paste it on WhatsApp and send to your love.");
+    }).catch(() => {
+      alert("Manual copy: Right-click on the photo and copy image address.");
+    });
+  };
+
+  // ── MEMORY PHOTO UPLOAD WITH SHARE ──
   window.uploadMemWithShare = function(num, input, previewId, collageId) {
     if (input.files && input.files[0]) {
       const r = new FileReader();
@@ -645,7 +676,6 @@
       return;
     }
     
-    // Copy to clipboard
     navigator.clipboard.writeText(photoData).then(() => {
       const notice = document.getElementById(`copyNotice${num}`);
       if (notice) {
