@@ -107,9 +107,12 @@
       font-family: 'Courier Prime', monospace;
       opacity: 0; width: 0;
     }
+    .tw-line.active {
+      animation: typeIt 1.8s steps(40, end) forwards;
+    }
     @keyframes typeIt { from { width: 0; opacity: 1; } to { width: 100%; opacity: 1; } }
 
-    /* ─── PHOTO UPLOAD GRID (Private: only recipient sees) ─── */
+    /* ─── PHOTO UPLOAD GRID ─── */
     .mem-photo-wrap {
       border: 2px dashed #f9a8d4;
       border-radius: 12px; overflow: hidden;
@@ -128,13 +131,17 @@
       padding: 20px 0;
     }
     .cake-wrap { position: relative; display: inline-block; }
+
+    /* Plate */
     .cake-plate {
       width: 230px; height: 18px;
       background: linear-gradient(180deg, #f0e6d3 0%, #d4bfa0 100%);
       border-radius: 50%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.18), inset 0 2px 4px rgba(255,255,255,0.5);
       margin: 0 auto;
+      position: relative;
     }
+    /* Bottom tier */
     .cake-tier-1 {
       width: 210px; height: 75px;
       background: linear-gradient(180deg, #f5c8a0 0%, #e8a860 60%, #d4904a 100%);
@@ -150,7 +157,10 @@
       background: repeating-linear-gradient(90deg, #fff5e6 0px, #fff5e6 14px, #fce7d6 14px, #fce7d6 28px);
       border-radius: 14px 14px 0 0;
     }
+    /* Frosting drips on tier 1 */
     .drip { position: absolute; top: -12px; width: 14px; height: 20px; background: #fff9f0; border-radius: 0 0 50% 50%; }
+
+    /* Middle tier */
     .cake-tier-2 {
       width: 170px; height: 60px;
       background: linear-gradient(180deg, #f9d4a8 0%, #edba74 60%, #d99c50 100%);
@@ -166,6 +176,7 @@
       background: repeating-linear-gradient(90deg, #fffaf0 0px, #fffaf0 12px, #fce8d0 12px, #fce8d0 24px);
       border-radius: 12px 12px 0 0;
     }
+    /* Top tier */
     .cake-tier-3 {
       width: 120px; height: 50px;
       background: linear-gradient(180deg, #fde4b8 0%, #f2c87a 60%, #e0a952 100%);
@@ -181,13 +192,20 @@
       background: repeating-linear-gradient(90deg, #fffcf2 0px, #fffcf2 10px, #fce9d4 10px, #fce9d4 20px);
       border-radius: 10px 10px 0 0;
     }
+    /* Flower decorations on cake */
     .cake-flower { position: absolute; font-size: 18px; }
+
+    /* Candle area */
     .candles-row {
       display: flex; justify-content: center; gap: 18px;
       position: absolute; top: -75px; left: 0; right: 0;
     }
     .candle { display: flex; flex-direction: column; align-items: center; }
-    .candle-body { width: 9px; height: 38px; border-radius: 4px; box-shadow: inset -2px 0 4px rgba(0,0,0,0.15); }
+    .candle-body {
+      width: 9px; height: 38px;
+      border-radius: 4px 4px 2px 2px;
+      box-shadow: inset -2px 0 4px rgba(0,0,0,0.15);
+    }
     .candle-wick { width: 2px; height: 7px; background: #333; margin-bottom: -2px; border-radius: 1px; }
     .candle-flame {
       width: 14px; height: 20px;
@@ -203,6 +221,8 @@
       100% { transform: scaleX(1.08) scaleY(1.06) rotate(1deg); opacity: 1; }
     }
     .flame-out { opacity: 0 !important; transform: scale(0) !important; animation: none !important; }
+
+    /* Cherries */
     .cherry {
       width: 16px; height: 16px;
       background: radial-gradient(circle at 35% 30%, #ff6b6b, #cc0000);
@@ -250,14 +270,24 @@
     .gift-title { font-weight: 700; color: #ec4899; margin-top: 6px; font-size: 0.9rem; }
     .gift-sub { font-size: 0.72rem; color: #a1a1aa; }
 
-    .privacy-note {
-      background: rgba(236,72,153,0.08);
-      border-radius: 40px;
-      padding: 4px 12px;
+    /* Share button */
+    .share-link-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 10px;
       font-size: 10px;
-      color: #ec4899;
-      margin-top: 12px;
-      display: inline-block;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+    .share-link-btn:hover { background: #059669; }
+    .copy-notice {
+      font-size: 9px;
+      background: #fce7f3;
+      padding: 4px 8px;
+      border-radius: 12px;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -274,21 +304,25 @@
   <!-- ══════════ STAGE 1: LOCK SCREEN ══════════ -->
   <div id="stage1" class="stage">
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:10px;">
+
       <div class="photo-frame" onclick="document.getElementById('lockPhotoInput').click()">
         <img id="lockPhoto" src="https://placehold.co/220x200/FFB6C1/FFFFFF?text=📸+Tap+to+Add+Photo" alt="Your Photo">
-        <div class="photo-frame-label">💖 Tap to add your picture 💖</div>
+        <div class="photo-frame-label">💖 Tap to change photo 💖</div>
         <div style="position:absolute;top:-10px;left:-10px;font-size:22px;">🧸</div>
         <div style="position:absolute;bottom:-8px;right:-8px;font-size:18px;">🎀</div>
       </div>
       <input type="file" id="lockPhotoInput" accept="image/*" style="display:none" onchange="uploadLockPhoto(this)">
+
       <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-top:4px;">🔒 Secret Code</h2>
-      <p style="color:#a1a1aa;font-size:0.82rem;">Hint: Our special 4 digits 💕</p>
+      <p style="color:#a1a1aa;font-size:0.82rem;">Hint: Hamari khaas 4 digits 💕</p>
+
       <div style="display:flex;gap:14px;margin:8px 0;">
         <div class="passcode-dot" id="dot1"></div>
         <div class="passcode-dot" id="dot2"></div>
         <div class="passcode-dot" id="dot3"></div>
         <div class="passcode-dot" id="dot4"></div>
       </div>
+
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:250px;">
         <button class="key-btn" data-key="1">1</button>
         <button class="key-btn" data-key="2">2</button>
@@ -303,8 +337,7 @@
         <button class="key-btn" data-key="0">0</button>
         <button class="key-btn clr-btn" data-key="clear" style="font-size:0.75rem;">CLEAR</button>
       </div>
-      <p style="font-size:11px;color:#d4aab8;margin-top:6px;">💝 2603 — when everything started 💝</p>
-      <div class="privacy-note">🔒 Your photos stay on YOUR device — totally private</div>
+      <p style="font-size:11px;color:#d4aab8;margin-top:6px;">💝 2603 — jab sab shuru hua 💝</p>
     </div>
   </div>
 
@@ -314,9 +347,9 @@
       <div>
         <div style="font-size:72px;margin-bottom:8px;">🎂🎉🥳</div>
         <h1 style="font-family:'Dancing Script',cursive;font-size:2.2rem;color:#ec4899;line-height:1.2;">Happy Birthday,<br>My Love! 💖</h1>
-        <p style="color:#6b7280;margin-top:12px;padding:0 16px;font-size:0.95rem;">Another year of you — another reason to celebrate!</p>
+        <p style="color:#6b7280;margin-top:12px;padding:0 16px;font-size:0.95rem;">Tera ek aur saal — ek aur reason tumhein celebrate karne ka!</p>
         <div style="background:#fce7f3;border-radius:16px;padding:14px 20px;margin:16px 8px;border:1px solid #fbcfe8;">
-          <p style="color:#ec4899;font-size:0.9rem;">✨ You are the sweetest part of my life ✨</p>
+          <p style="color:#ec4899;font-size:0.9rem;">✨ Tu meri zindagi ka sabse pyaara hissa hai ✨</p>
         </div>
         <div style="font-size:42px;margin-top:8px;">🐻‍❄️🐱💖</div>
       </div>
@@ -329,7 +362,7 @@
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-height:560px;justify-content:center;gap:16px;">
       <div style="font-size:80px;animation:bounce 1s infinite alternate;">🎁🤗</div>
       <h2 style="font-size:1.7rem;font-weight:800;color:#ec4899;">Ready for a SURPRISE? 💕</h2>
-      <p style="color:#9ca3af;">Something magical is waiting for you...</p>
+      <p style="color:#9ca3af;">Kuch magical tumhara intezaar kar raha hai...</p>
       <div style="display:flex;flex-direction:column;gap:14px;width:200px;margin-top:20px;">
         <button class="btn-primary btn-green" onclick="showStage(5)">YES! 🎁</button>
         <button class="btn-primary" style="background:linear-gradient(135deg,#94a3b8,#64748b);" onclick="showStage(4)">No 😅</button>
@@ -345,7 +378,7 @@
       <div style="font-size:72px;">😤💢</div>
       <div style="font-size:48px;margin-top:8px;">🌧️😭</div>
       <h1 style="font-size:2.5rem;font-weight:900;color:#ef4444;margin:12px 0;">HOW DARE YOU!</h1>
-      <p style="color:#6b7280;font-size:1rem;padding:0 20px;">Saying NO to a surprise? That's unacceptable! 😾</p>
+      <p style="color:#6b7280;font-size:1rem;padding:0 20px;">Surprise ko NO bola? Yeh toh bilkul nahi chalta! 😾</p>
       <button class="btn-primary btn-indigo" style="margin-top:40px;" onclick="showStage(3)">TRY AGAIN 🔄</button>
     </div>
   </div>
@@ -353,18 +386,18 @@
   <!-- ══════════ STAGE 5: GIFT SELECTION ══════════ -->
   <div id="stage5" class="stage hidden-stage">
     <div style="text-align:center;padding-top:10px;">
-      <h2 style="font-size:1.6rem;font-weight:800;color:#ec4899;">🎁 Pick Your Gift 🎁</h2>
-      <p style="color:#9ca3af;font-size:0.88rem;margin-bottom:24px;">Each gift hides a special surprise ✨</p>
+      <h2 style="font-size:1.6rem;font-weight:800;color:#ec4899;">🎁 Apna Gift Chuno 🎁</h2>
+      <p style="color:#9ca3af;font-size:0.88rem;margin-bottom:24px;">Har gift mein ek special surprise hai ✨</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
         <div class="gift-card" onclick="showStage('gift1Content')">
           <div class="gift-emoji">💌</div>
           <div class="gift-title">Love Letter</div>
-          <div class="gift-sub">Words from heart</div>
+          <div class="gift-sub">Dil ki baat</div>
         </div>
         <div class="gift-card" onclick="showStage('gift2Content')">
           <div class="gift-emoji">📸</div>
           <div class="gift-title">Memories</div>
-          <div class="gift-sub">Upload 5 memories</div>
+          <div class="gift-sub">5 yaadein upload karo</div>
         </div>
         <div class="gift-card" onclick="showStage('gift3Content')">
           <div class="gift-emoji">🦋</div>
@@ -375,12 +408,14 @@
     </div>
   </div>
 
-  <!-- ══════════ GIFT 1: TYPEWRITER LOVE LETTER (English) ══════════ -->
+  <!-- ══════════ GIFT 1: TYPEWRITER LOVE LETTER ══════════ -->
   <div id="gift1Content" class="stage hidden-stage">
     <div style="display:flex;flex-direction:column;align-items:center;min-height:560px;justify-content:center;padding-top:10px;">
       <div style="background:white;border-radius:20px;padding:24px;box-shadow:0 8px 30px rgba(236,72,153,0.15);max-width:360px;width:100%;border:1.5px solid #fbcfe8;">
         <div style="text-align:center;font-size:42px;margin-bottom:12px;">💌</div>
-        <div id="twContainer" style="font-family:'Courier Prime',monospace;color:#374151;font-size:0.88rem;line-height:1.7;min-height:280px;"></div>
+        <div id="twContainer" style="font-family:'Courier Prime',monospace;color:#374151;font-size:0.88rem;line-height:1.7;min-height:280px;">
+          <!-- Lines appear here -->
+        </div>
         <div id="twSignature" style="display:none;text-align:center;margin-top:16px;padding-top:12px;border-top:1px dashed #fbcfe8;">
           <span style="font-family:'Dancing Script',cursive;font-size:1.4rem;color:#ec4899;">Be Loved Sufiyan 💕</span>
         </div>
@@ -389,40 +424,49 @@
     </div>
   </div>
 
-  <!-- ══════════ GIFT 2: PHOTO MEMORIES (PRIVATE, SHOWN ONLY TO RECIPIENT) ══════════ -->
+  <!-- ══════════ GIFT 2: PHOTO MEMORIES with SHARE BUTTON ══════════ -->
   <div id="gift2Content" class="stage hidden-stage">
     <div style="text-align:center;">
-      <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-bottom:4px;">📸 Our Precious Memories</h2>
-      <p style="font-size:0.78rem;color:#9ca3af;margin-bottom:8px;">Upload 5 special photos (visible only to you — private)</p>
-      <div class="privacy-note" style="margin-bottom:12px;">🔒 These images never leave your device — only you can see them</div>
+      <h2 style="font-size:1.4rem;font-weight:800;color:#ec4899;margin-bottom:4px;">📸 Hamari Pyaari Yaadein</h2>
+      <p style="font-size:0.78rem;color:#9ca3af;margin-bottom:14px;">5 khaas photos upload karo — copy link and share on WhatsApp 💕</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div class="mem-photo-wrap" onclick="document.getElementById('mp1').click()">
           <img id="mp1prev" src="https://placehold.co/150x100/F9A8D4/FFFFFF?text=📸+1" alt="">
           <div class="mem-label">Memory 1 ✨</div>
-          <input type="file" id="mp1" accept="image/*" style="display:none" onchange="uploadMem(this,'mp1prev','fc1')">
+          <input type="file" id="mp1" accept="image/*" style="display:none" onchange="uploadMemWithShare(1, this, 'mp1prev', 'fc1')">
+          <button class="share-link-btn" id="shareBtn1" style="display:none;" onclick="sharePhotoLink(1)">🔗 Copy Photo Link</button>
+          <div id="copyNotice1" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
         </div>
         <div class="mem-photo-wrap" onclick="document.getElementById('mp2').click()">
           <img id="mp2prev" src="https://placehold.co/150x100/FBCFE8/FFFFFF?text=📸+2" alt="">
           <div class="mem-label">Memory 2 💕</div>
-          <input type="file" id="mp2" accept="image/*" style="display:none" onchange="uploadMem(this,'mp2prev','fc2')">
+          <input type="file" id="mp2" accept="image/*" style="display:none" onchange="uploadMemWithShare(2, this, 'mp2prev', 'fc2')">
+          <button class="share-link-btn" id="shareBtn2" style="display:none;" onclick="sharePhotoLink(2)">🔗 Copy Photo Link</button>
+          <div id="copyNotice2" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
         </div>
         <div class="mem-photo-wrap" onclick="document.getElementById('mp3').click()">
           <img id="mp3prev" src="https://placehold.co/150x100/FDA4AF/FFFFFF?text=📸+3" alt="">
           <div class="mem-label">Memory 3 🌸</div>
-          <input type="file" id="mp3" accept="image/*" style="display:none" onchange="uploadMem(this,'mp3prev','fc3')">
+          <input type="file" id="mp3" accept="image/*" style="display:none" onchange="uploadMemWithShare(3, this, 'mp3prev', 'fc3')">
+          <button class="share-link-btn" id="shareBtn3" style="display:none;" onclick="sharePhotoLink(3)">🔗 Copy Photo Link</button>
+          <div id="copyNotice3" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
         </div>
         <div class="mem-photo-wrap" onclick="document.getElementById('mp4').click()">
           <img id="mp4prev" src="https://placehold.co/150x100/D8BFD8/FFFFFF?text=📸+4" alt="">
           <div class="mem-label">Memory 4 🌺</div>
-          <input type="file" id="mp4" accept="image/*" style="display:none" onchange="uploadMem(this,'mp4prev',null)">
+          <input type="file" id="mp4" accept="image/*" style="display:none" onchange="uploadMemWithShare(4, this, 'mp4prev', null)">
+          <button class="share-link-btn" id="shareBtn4" style="display:none;" onclick="sharePhotoLink(4)">🔗 Copy Photo Link</button>
+          <div id="copyNotice4" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
         </div>
         <div class="mem-photo-wrap" onclick="document.getElementById('mp5').click()" style="grid-column:1/-1;max-width:180px;margin:0 auto;width:100%;">
           <img id="mp5prev" src="https://placehold.co/150x100/E6E6FA/FFFFFF?text=📸+5" alt="">
           <div class="mem-label">Memory 5 💖</div>
-          <input type="file" id="mp5" accept="image/*" style="display:none" onchange="uploadMem(this,'mp5prev',null)">
+          <input type="file" id="mp5" accept="image/*" style="display:none" onchange="uploadMemWithShare(5, this, 'mp5prev', null)">
+          <button class="share-link-btn" id="shareBtn5" style="display:none;" onclick="sharePhotoLink(5)">🔗 Copy Photo Link</button>
+          <div id="copyNotice5" class="copy-notice" style="display:none;">✅ Link copied! Send on WhatsApp</div>
         </div>
       </div>
-      <p style="font-size:11px;color:#d4aab8;margin-top:10px;">💝 These memories are just for you — nobody else sees them 💝</p>
+      <p style="font-size:11px;color:#d4aab8;margin-top:10px;">💝 Upload photo → Click "Copy Photo Link" → Paste on WhatsApp to send 💝</p>
       <button class="btn-primary" style="margin-top:14px;" onclick="showStage(6)">Continue to Cake 🎂</button>
     </div>
   </div>
@@ -430,11 +474,11 @@
   <!-- ══════════ GIFT 3: GLOWING BUTTERFLY ══════════ -->
   <div id="gift3Content" class="stage hidden-stage">
     <div style="display:flex;flex-direction:column;align-items:center;min-height:540px;justify-content:center;text-align:center;gap:16px;">
-      <div style="font-size:1.3rem;font-weight:700;color:#ec4899;">✨ A Little Magic Just For You ✨</div>
+      <div style="font-size:1.3rem;font-weight:700;color:#ec4899;">✨ Ek Choti Si Jadu Tumhare Liye ✨</div>
       <div id="magicButterfly" class="butterfly-emoji" onclick="releaseButterfly()">🦋</div>
-      <p style="color:#9ca3af;font-size:0.9rem;">Click on the butterfly to see the magic! ✨</p>
+      <p style="color:#9ca3af;font-size:0.9rem;">Butterfly ko click karo jadu dekhne ke liye! ✨</p>
       <div id="butterflyMessage" class="hidden-stage" style="color:#ec4899;font-weight:700;font-size:1.1rem;animation:pulse 1.5s infinite;">
-        💖 You are magical! Be Loved Sufiyan 💖
+        💖 Tum magical ho! Be Loved Sufiyan 💖
       </div>
       <div id="btflySparkles" style="font-size:24px;min-height:32px;"></div>
       <button id="continueFromButterfly" class="btn-primary hidden-stage" onclick="showStage(6)">Continue to Cake 🎂</button>
@@ -445,75 +489,187 @@
   <!-- ══════════ STAGE 6: REALISTIC CAKE ══════════ -->
   <div id="stage6" class="stage hidden-stage">
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px;">
-      <h2 id="wishMessage" style="font-size:1.3rem;font-weight:700;color:#ec4899;margin-bottom:10px;">✨ Make a wish ✨</h2>
+      <h2 id="wishMessage" style="font-size:1.3rem;font-weight:700;color:#ec4899;margin-bottom:10px;">✨ Ek wish karo ✨</h2>
+
+      <!-- REALISTIC CAKE -->
       <div class="cake-scene">
         <div class="cake-wrap">
+          <!-- Candles above top tier -->
           <div class="candles-row" style="top:-80px;">
-            <div class="candle"><div class="candle-flame" id="flame1"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#f9a8d4,#ec4899);"></div></div>
-            <div class="candle"><div class="candle-flame" id="flame2"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#a5f3fc,#22d3ee);"></div></div>
-            <div class="candle"><div class="candle-flame" id="flame3"></div><div class="candle-wick"></div><div class="candle-body" style="background:linear-gradient(135deg,#fde68a,#f59e0b);"></div></div>
+            <div class="candle">
+              <div class="candle-flame" id="flame1"></div>
+              <div class="candle-wick"></div>
+              <div class="candle-body" style="background:linear-gradient(135deg,#f9a8d4,#ec4899);"></div>
+            </div>
+            <div class="candle">
+              <div class="candle-flame" id="flame2"></div>
+              <div class="candle-wick"></div>
+              <div class="candle-body" style="background:linear-gradient(135deg,#a5f3fc,#22d3ee);"></div>
+            </div>
+            <div class="candle">
+              <div class="candle-flame" id="flame3"></div>
+              <div class="candle-wick"></div>
+              <div class="candle-body" style="background:linear-gradient(135deg,#fde68a,#f59e0b);"></div>
+            </div>
           </div>
-          <div class="cake-tier-3"><span class="cake-flower" style="top:14px;left:10px;">🌸</span><span class="cake-flower" style="top:14px;right:10px;">🌸</span><div class="cherry" style="top:-6px;left:50%;transform:translateX(-50%);"></div></div>
-          <div style="width:155px;height:10px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;"></div>
-          <div class="cake-tier-2"><div class="drip" style="left:14px;"></div><div class="drip" style="left:40px;"></div><div class="drip" style="left:70px;"></div><div class="drip" style="left:100px;"></div><div class="drip" style="left:130px;"></div><span class="cake-flower" style="top:16px;left:20px;">🌺</span><span class="cake-flower" style="top:16px;right:20px;">🌺</span><span style="position:absolute;top:16px;left:50%;transform:translateX(-50%);">💖</span></div>
-          <div style="width:195px;height:12px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;"></div>
-          <div class="cake-tier-1"><div class="drip" style="left:10px;"></div><div class="drip" style="left:35px;"></div><div class="drip" style="left:65px;"></div><div class="drip" style="left:90px;"></div><div class="drip" style="left:120px;"></div><div class="drip" style="left:150px;"></div><div class="drip" style="left:178px;"></div><span style="position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:24px;">🎂</span><div class="cherry" style="top:12px;left:25px;"></div><div class="cherry" style="top:10px;right:25px;"></div></div>
+
+          <!-- TOP TIER -->
+          <div class="cake-tier-3" style="position:relative;">
+            <span class="cake-flower" style="top:14px;left:10px;">🌸</span>
+            <span class="cake-flower" style="top:14px;right:10px;">🌸</span>
+            <div class="cherry" style="top:-6px;left:50%;transform:translateX(-50%);"></div>
+          </div>
+
+          <div style="width:155px;height:10px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,0.08);"></div>
+
+          <!-- MIDDLE TIER -->
+          <div class="cake-tier-2" style="position:relative;">
+            <div class="drip" style="left:14px;"></div>
+            <div class="drip" style="left:40px;"></div>
+            <div class="drip" style="left:70px;"></div>
+            <div class="drip" style="left:100px;"></div>
+            <div class="drip" style="left:130px;"></div>
+            <span class="cake-flower" style="top:16px;left:20px;font-size:14px;">🌺</span>
+            <span class="cake-flower" style="top:16px;right:20px;font-size:14px;">🌺</span>
+            <span style="position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:13px;">💖</span>
+          </div>
+
+          <div style="width:195px;height:12px;background:linear-gradient(180deg,#fff9f5,#fce8d0);border-radius:50%;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,0.1);"></div>
+
+          <!-- BOTTOM TIER -->
+          <div class="cake-tier-1" style="position:relative;">
+            <div class="drip" style="left:10px;"></div>
+            <div class="drip" style="left:35px;"></div>
+            <div class="drip" style="left:65px;"></div>
+            <div class="drip" style="left:90px;"></div>
+            <div class="drip" style="left:120px;"></div>
+            <div class="drip" style="left:150px;"></div>
+            <div class="drip" style="left:178px;"></div>
+            <span style="position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:24px;">🎂</span>
+            <div class="cherry" style="top:12px;left:25px;"></div>
+            <div class="cherry" style="top:10px;right:25px;"></div>
+          </div>
+
+          <!-- PLATE -->
           <div class="cake-plate"></div>
         </div>
       </div>
-      <button id="blowBtn" class="btn-primary" style="background:linear-gradient(135deg,#38bdf8,#3b82f6);margin-top:10px;font-size:1.05rem;padding:14px 36px;">💨 Blow the Candles 💨</button>
-      <div id="nextCakeDiv" class="hidden-stage" style="margin-top:14px;"><button class="btn-primary" onclick="showStage(7)">NEXT ➡️ Final Surprise</button></div>
+
+      <button id="blowBtn" class="btn-primary" style="background:linear-gradient(135deg,#38bdf8,#3b82f6);margin-top:10px;font-size:1.05rem;padding:14px 36px;">
+        💨 Candles phoonk do 💨
+      </button>
+      <div id="nextCakeDiv" class="hidden-stage" style="margin-top:14px;">
+        <button class="btn-primary" onclick="showStage(7)">NEXT ➡️ Final Surprise</button>
+      </div>
     </div>
   </div>
 
-  <!-- ══════════ STAGE 7: FINAL COLLAGE (shows uploaded memories) ══════════ -->
+  <!-- ══════════ STAGE 7: FINAL COLLAGE ══════════ -->
   <div id="stage7" class="stage hidden-stage">
     <div style="background:linear-gradient(135deg,#fff5f8,#fce7f3);border-radius:20px;padding:20px 16px;text-align:center;">
       <h2 style="font-family:'Dancing Script',cursive;font-size:2rem;color:#be185d;margin-bottom:4px;">I Miss Us Together</h2>
-      <p style="color:#ec4899;font-size:0.8rem;margin-bottom:16px;">💕 Every moment is yours 💕</p>
+      <p style="color:#ec4899;font-size:0.8rem;margin-bottom:16px;">💕 Har lamha tumhara hai 💕</p>
       <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
-        <div class="polaroid"><img id="fc1" src="https://placehold.co/110x110/F9A8D4/FFFFFF?text=💞+Us" alt=""><div class="polaroid-caption">Our first memory 🌸</div></div>
-        <div class="polaroid"><img id="fc2" src="https://placehold.co/110x110/FBCFE8/FFFFFF?text=💖+Together" alt=""><div class="polaroid-caption">Always together 💕</div></div>
-        <div class="polaroid"><img id="fc3" src="https://placehold.co/110x110/FDA4AF/FFFFFF?text=✨+Magic" alt=""><div class="polaroid-caption">You are my life 💗</div></div>
+        <div class="polaroid" style="transform:rotate(-3deg);">
+          <img id="fc1" src="https://placehold.co/110x110/F9A8D4/FFFFFF?text=💞+Us" alt="">
+          <div class="polaroid-caption">Hamari pehli memory 🌸</div>
+        </div>
+        <div class="polaroid" style="transform:rotate(2deg);">
+          <img id="fc2" src="https://placehold.co/110x110/FBCFE8/FFFFFF?text=💖+Together" alt="">
+          <div class="polaroid-caption">Hamesha saath 💕</div>
+        </div>
+        <div class="polaroid" style="transform:rotate(-1deg);">
+          <img id="fc3" src="https://placehold.co/110x110/FDA4AF/FFFFFF?text=✨+Magic" alt="">
+          <div class="polaroid-caption">Tum meri jaan ho 💗</div>
+        </div>
       </div>
-      <p style="color:#be185d;font-style:italic;margin-top:16px;background:rgba(255,255,255,0.7);border-radius:12px;padding:12px;font-size:0.9rem;">Every moment with you is my favorite memory 💗</p>
+      <p style="color:#be185d;font-style:italic;margin-top:16px;background:rgba(255,255,255,0.7);border-radius:12px;padding:12px;font-size:0.9rem;">
+        Tumhare saath har pal meri favorite memory hai 💗
+      </p>
       <div style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:#ec4899;margin-top:10px;">Be Loved Sufiyan 💕</div>
-      <button class="btn-primary" style="margin-top:14px;background:linear-gradient(135deg,#f43f5e,#ec4899);" onclick="fullReplay()">🔁 Watch Again</button>
-      <div class="privacy-note" style="margin-top:12px;">🔒 Your photos remain private on your device</div>
+      <button class="btn-primary" style="margin-top:14px;background:linear-gradient(135deg,#f43f5e,#ec4899);" onclick="fullReplay()">🔁 Phir se Dekhna</button>
     </div>
   </div>
+
 </div>
 
 <script>
-  // All images stay inside browser memory — NO external upload, only recipient sees them.
+  // ── STATE ──
   let currentPin = "";
   let activeStage = 1;
   let stageHistory = [];
   const CORRECT_PIN = "2603";
+  
+  // Store uploaded photo data URLs for sharing
+  let uploadedPhotos = {};
 
+  // ── PHOTO UPLOAD WITH SHARE FUNCTIONALITY ──
   window.uploadLockPhoto = function(input) {
     if (input.files && input.files[0]) {
       const r = new FileReader();
-      r.onload = e => document.getElementById('lockPhoto').src = e.target.result;
-      r.readAsDataURL(input.files[0]);
-    }
-  };
-
-  window.uploadMem = function(input, previewId, collageId) {
-    if (input.files && input.files[0]) {
-      const r = new FileReader();
       r.onload = e => {
-        document.getElementById(previewId).src = e.target.result;
-        if (collageId && document.getElementById(collageId)) document.getElementById(collageId).src = e.target.result;
+        const imgData = e.target.result;
+        document.getElementById('lockPhoto').src = imgData;
+        alert("✅ Photo uploaded! You can share this page link with your love.");
       };
       r.readAsDataURL(input.files[0]);
     }
   };
 
-  document.getElementById('lockPhoto').addEventListener('click', () => document.getElementById('lockPhotoInput').click());
+  window.uploadMemWithShare = function(num, input, previewId, collageId) {
+    if (input.files && input.files[0]) {
+      const r = new FileReader();
+      r.onload = e => {
+        const imgData = e.target.result;
+        // Update preview
+        document.getElementById(previewId).src = imgData;
+        if (collageId) document.getElementById(collageId).src = imgData;
+        
+        // Store for sharing
+        uploadedPhotos[num] = imgData;
+        
+        // Show share button
+        const shareBtn = document.getElementById(`shareBtn${num}`);
+        if (shareBtn) shareBtn.style.display = 'inline-block';
+        
+        alert(`✅ Photo ${num} uploaded! Click "Copy Photo Link" to send on WhatsApp.`);
+      };
+      r.readAsDataURL(input.files[0]);
+    }
+  };
 
+  window.sharePhotoLink = function(num) {
+    const photoData = uploadedPhotos[num];
+    if (!photoData) {
+      alert("Please upload a photo first!");
+      return;
+    }
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(photoData).then(() => {
+      const notice = document.getElementById(`copyNotice${num}`);
+      if (notice) {
+        notice.style.display = 'block';
+        setTimeout(() => {
+          notice.style.display = 'none';
+        }, 3000);
+      }
+      alert(`📸 Photo ${num} link copied! Paste it on WhatsApp and send to your love.`);
+    }).catch(() => {
+      alert("Manual copy: Right-click on the photo and copy image address.");
+    });
+  };
+
+  document.getElementById('lockPhoto').addEventListener('click', () => {
+    document.getElementById('lockPhotoInput').click();
+  });
+
+  // ── PASSCODE ──
   function updateDots() {
-    for (let i = 1; i <= 4; i++) document.getElementById('dot' + i).classList.toggle('filled', i <= currentPin.length);
+    for (let i = 1; i <= 4; i++) {
+      const d = document.getElementById('dot' + i);
+      if (d) d.classList.toggle('filled', i <= currentPin.length);
+    }
   }
 
   function handleKey(val) {
@@ -524,70 +680,133 @@
       if (currentPin === CORRECT_PIN) {
         setTimeout(() => { showStage(2); currentPin = ""; updateDots(); }, 200);
       } else {
-        document.querySelectorAll('.passcode-dot').forEach(d => d.style.background = '#ef4444');
-        setTimeout(() => { currentPin = ""; updateDots(); document.querySelectorAll('.passcode-dot').forEach(d => d.style.background = ''); }, 600);
+        const dots = document.querySelectorAll('.passcode-dot');
+        dots.forEach(d => { d.style.background = '#ef4444'; });
+        setTimeout(() => { currentPin = ""; updateDots(); dots.forEach(d => d.style.background = ''); }, 600);
       }
     }
   }
-  document.querySelectorAll('[data-key]').forEach(k => k.addEventListener('click', e => { e.stopPropagation(); handleKey(k.dataset.key); }));
 
+  document.querySelectorAll('[data-key]').forEach(k => {
+    k.addEventListener('click', e => { e.stopPropagation(); handleKey(k.dataset.key); });
+  });
+
+  // ── STAGE NAVIGATION ──
   function getAllStageEls() {
-    return ['stage1','stage2','stage3','stage4','stage5','stage6','stage7','gift1Content','gift2Content','gift3Content'].map(id => document.getElementById(id)).filter(Boolean);
+    return ['stage1','stage2','stage3','stage4','stage5','stage6','stage7','gift1Content','gift2Content','gift3Content']
+      .map(id => document.getElementById(id)).filter(Boolean);
   }
 
   function showStage(id, addHistory = true) {
     getAllStageEls().forEach(el => el.classList.add('hidden-stage'));
     const el = typeof id === 'number' ? document.getElementById('stage' + id) : document.getElementById(id);
     if (!el) return;
-    if (addHistory && activeStage) stageHistory.push(activeStage);
+    if (addHistory) stageHistory.push(activeStage);
     el.classList.remove('hidden-stage');
+
     if (typeof id === 'number') activeStage = id;
     else activeStage = id.includes('stage') ? parseInt(id.replace('stage','')) : 5;
+
     document.getElementById('backButton').classList.toggle('hidden-stage', activeStage === 1);
-    if (id === 'stage4' || id === 4) startRain();
+
+    if ((typeof id === 'number' && id === 6) || id === 'stage6') resetCake();
+    if ((typeof id === 'number' && id === 4) || id === 'stage4') startRain();
     if (id === 'gift1Content') startTypewriter();
-    if ((id === 'stage6' || id === 6)) resetCake();
   }
 
-  function goBack() { if (stageHistory.length > 0) showStage(stageHistory.pop(), false); else showStage(1, false); }
-  function fullReplay() { currentPin = ""; updateDots(); stageHistory = []; showStage(1, false); }
+  function goBack() {
+    if (stageHistory.length > 0) showStage(stageHistory.pop(), false);
+    else showStage(1, false);
+  }
 
+  function fullReplay() {
+    currentPin = ""; updateDots(); stageHistory = []; showStage(1, false);
+  }
+
+  // ── RAIN ──
   let rainInterval = null;
   function startRain() {
     clearInterval(rainInterval);
-    const make = () => {
-      const area = document.getElementById('rainArea');
-      if (!area || activeStage !== 4) return;
-      for (let i=0;i<20;i++) { const d=document.createElement('div'); d.className='rain-drop'; d.textContent=['💧','🌧️','😿','☔','💦'][Math.floor(Math.random()*5)]; d.style.left=Math.random()*100+'%'; d.style.animationDuration=(0.6+Math.random()*0.7)+'s'; area.appendChild(d); setTimeout(()=>d.remove(),1000); }
-    };
-    make();
-    rainInterval = setInterval(() => { if(activeStage===4) make(); else clearInterval(rainInterval); }, 1200);
+    makeRain();
+    rainInterval = setInterval(() => { if (activeStage === 4) makeRain(); else clearInterval(rainInterval); }, 1500);
+  }
+  function makeRain() {
+    const area = document.getElementById('rainArea');
+    if (!area) return;
+    for (let i = 0; i < 25; i++) {
+      const d = document.createElement('div');
+      d.className = 'rain-drop';
+      d.textContent = ['💧','🌧️','😿','☔','💦'][Math.floor(Math.random()*5)];
+      d.style.left = Math.random() * 100 + '%';
+      d.style.animationDuration = (0.6 + Math.random() * 0.7) + 's';
+      area.appendChild(d);
+      setTimeout(() => d.remove(), 1000);
+    }
   }
 
+  // ── CAKE ──
   function resetCake() {
-    ['flame1','flame2','flame3'].forEach(id => { let f=document.getElementById(id); if(f){ f.classList.remove('flame-out'); f.style.opacity=''; f.style.transform=''; } });
-    document.getElementById('wishMessage').textContent='✨ Make a wish ✨';
+    ['flame1','flame2','flame3'].forEach(id => {
+      const f = document.getElementById(id);
+      if (f) { f.classList.remove('flame-out'); f.style.opacity = ''; f.style.transform = ''; }
+    });
+    document.getElementById('wishMessage').textContent = '✨ Ek wish karo ✨';
     document.getElementById('nextCakeDiv').classList.add('hidden-stage');
   }
-  document.getElementById('blowBtn')?.addEventListener('click', ()=>{
-    ['flame1','flame2','flame3'].forEach((id,i)=>setTimeout(()=>{let f=document.getElementById(id); if(f) f.classList.add('flame-out');},i*150));
-    setTimeout(()=>{ document.getElementById('wishMessage').textContent='🎂 Happy Birthday My Love! 🎂'; document.getElementById('nextCakeDiv').classList.remove('hidden-stage'); launchConfetti(); },600);
-  });
-  function launchConfetti(){
-    const app=document.getElementById('app'), emojis=['🎉','🎊','⭐','💖','🌸','✨','🎈','🥳'];
-    for(let i=0;i<40;i++) setTimeout(()=>{let s=document.createElement('div'); s.textContent=emojis[Math.floor(Math.random()*emojis.length)]; s.style.cssText=`position:absolute;left:${Math.random()*100}%;top:-30px;font-size:${16+Math.random()*16}px;pointer-events:none;z-index:200;animation:confettiFall ${1+Math.random()}s ease-in forwards;`; app.appendChild(s); setTimeout(()=>s.remove(),2000);}, i*60);
-  }
-  if(!document.querySelector('#confettiStyle')){ let st=document.createElement('style'); st.id='confettiStyle'; st.textContent=`@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(700px) rotate(360deg);opacity:0}}`; document.head.appendChild(st); }
 
-  // English love letter lines
+  document.getElementById('blowBtn').addEventListener('click', () => {
+    ['flame1','flame2','flame3'].forEach((id, i) => {
+      setTimeout(() => {
+        const f = document.getElementById(id);
+        if (f) f.classList.add('flame-out');
+      }, i * 150);
+    });
+    setTimeout(() => {
+      document.getElementById('wishMessage').textContent = '🎂 Happy Birthday My Love! 🎂';
+      document.getElementById('nextCakeDiv').classList.remove('hidden-stage');
+      launchConfetti();
+    }, 600);
+  });
+
+  function launchConfetti() {
+    const emojis = ['🎉','🎊','⭐','💖','🌸','✨','🎈','🥳'];
+    const app = document.getElementById('app');
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => {
+        const s = document.createElement('div');
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.cssText = `position:absolute;left:${Math.random()*100}%;top:-30px;font-size:${16+Math.random()*16}px;pointer-events:none;z-index:200;animation:confettiFall ${1+Math.random()}s ease-in forwards;`;
+        app.appendChild(s);
+        setTimeout(() => s.remove(), 2000);
+      }, i * 60);
+    }
+  }
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `@keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(700px) rotate(360deg);opacity:0} }`;
+  document.head.appendChild(styleEl);
+
+  // ── TYPEWRITER LOVE LETTER ──
   const letterLines = [
-    { text: "My Dearest Love,", style: "font-weight:bold;font-size:1.1rem;color:#ec4899;" }, { text: "", style: "display:block;height:8px;" },
-    { text: "You are the most beautiful thing", style: "color:#374151;" }, { text: "in this universe — not just to look at,", style: "color:#374151;" }, { text: "but deep within your soul. 🌸", style: "color:#374151;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "Your smile lights up my entire world.", style: "color:#374151;" }, { text: "Your presence is the greatest gift", style: "color:#374151;" }, { text: "I have ever received. 💫", style: "color:#374151;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "I love you — yesterday, today,", style: "color:#ec4899;font-weight:600;" }, { text: "and forever. ❤️‍🔥", style: "color:#ec4899;font-weight:600;" },
-    { text: "", style: "display:block;height:8px;" }, { text: "You are my entire universe.", style: "color:#7c3aed;font-style:italic;" }, { text: "Your birthday isn't just one day —", style: "color:#7c3aed;font-style:italic;" }, { text: "every day is a celebration", style: "color:#7c3aed;font-style:italic;" }, { text: "because you are with me. 🎂✨", style: "color:#7c3aed;font-style:italic;" },
+    { text: "Meri Pyaari Jaan,", style: "font-weight:bold;font-size:1.1rem;color:#ec4899;" },
+    { text: "", style: "display:block;height:8px;" },
+    { text: "Tum is duniya ki sabse khoobsurat", style: "color:#374151;" },
+    { text: "cheez ho — sirf dekhne mein nahi,", style: "color:#374151;" },
+    { text: "balki apni rooh se bhi. 🌸", style: "color:#374151;" },
+    { text: "", style: "display:block;height:8px;" },
+    { text: "Tumhara hasna meri duniya roshan", style: "color:#374151;" },
+    { text: "kar deta hai. Tumhara hona mera", style: "color:#374151;" },
+    { text: "sabse bada tohfa hai. 💫", style: "color:#374151;" },
+    { text: "", style: "display:block;height:8px;" },
+    { text: "Mujhe tumse pyar hai — kal bhi,", style: "color:#ec4899;font-weight:600;" },
+    { text: "aaj bhi, hamesha bhi. ❤️‍🔥", style: "color:#ec4899;font-weight:600;" },
+    { text: "", style: "display:block;height:8px;" },
+    { text: "Tum mere liye puri kaynaat ho.", style: "color:#7c3aed;font-style:italic;" },
+    { text: "Tumhara birthday sirf ek din nahi —", style: "color:#7c3aed;font-style:italic;" },
+    { text: "mera har din celebration hai", style: "color:#7c3aed;font-style:italic;" },
+    { text: "kyunki tum mere saath ho. 🎂✨", style: "color:#7c3aed;font-style:italic;" },
   ];
-  function startTypewriter(){
+
+  function startTypewriter() {
     const container = document.getElementById('twContainer');
     container.innerHTML = '';
     document.getElementById('twSignature').style.display = 'none';
@@ -597,23 +816,50 @@
       delay += line.text === '' ? 200 : 1000;
       setTimeout(() => {
         const span = document.createElement('div');
-        if (line.text === '') { span.style.height = '8px'; } else { span.style.cssText = `font-family:'Courier Prime',monospace;${line.style};`; typeText(span, line.text, 40); }
+        if (line.text === '') {
+          span.style.height = '8px';
+        } else {
+          span.style.cssText = `font-family:'Courier Prime',monospace;${line.style};`;
+          typeText(span, line.text, 40);
+        }
         container.appendChild(span);
-        if (idx === letterLines.length - 1) setTimeout(() => { document.getElementById('twSignature').style.display = 'block'; document.getElementById('twContinueBtn').style.display = 'inline-block'; }, line.text.length * 40 + 500);
+        if (idx === letterLines.length - 1) {
+          setTimeout(() => {
+            document.getElementById('twSignature').style.display = 'block';
+            document.getElementById('twContinueBtn').style.display = 'inline-block';
+          }, line.text.length * 40 + 500);
+        }
       }, delay);
     });
   }
-  function typeText(el, text, speed) { let i=0; el.textContent=''; const iv=setInterval(()=>{if(i<text.length){el.textContent+=text[i]; i++;} else clearInterval(iv);}, speed); }
 
-  window.releaseButterfly = function(){
+  function typeText(el, text, speed) {
+    let i = 0;
+    el.textContent = '';
+    const iv = setInterval(() => {
+      if (i < text.length) { el.textContent += text[i]; i++; }
+      else clearInterval(iv);
+    }, speed);
+  }
+
+  // ── BUTTERFLY ──
+  window.releaseButterfly = function() {
     const b = document.getElementById('magicButterfly');
     b.style.transform = 'scale(1.6)';
     b.style.animation = 'flyAround 1s ease-out, glowPulse 0.4s ease-in-out infinite';
     document.getElementById('butterflyMessage').classList.remove('hidden-stage');
     document.getElementById('continueFromButterfly').classList.remove('hidden-stage');
-    let count=0, sparkles=['✨','💫','🌟','⭐','💖','🌸']; const iv=setInterval(()=>{ document.getElementById('btflySparkles').textContent=sparkles[count%sparkles.length]; count++; if(count>20) clearInterval(iv); },150);
+    const sp = document.getElementById('btflySparkles');
+    const sparkles = ['✨','💫','🌟','⭐','💖','🌸'];
+    let count = 0;
+    const iv = setInterval(() => {
+      sp.textContent = sparkles[count % sparkles.length];
+      count++;
+      if (count > 20) clearInterval(iv);
+    }, 150);
   };
 
+  // ── INIT ──
   showStage(1, false);
   updateDots();
 </script>
